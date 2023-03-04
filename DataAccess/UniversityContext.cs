@@ -9,6 +9,7 @@ namespace api_net_v6.DataAccess
         public UniversityContext(DbContextOptions<UniversityContext> options) : base(options) { }
 
         public DbSet<User>? Users { get; set; }
+        public DbSet<Course>? Courses { get; set; }
 
     }
 }
