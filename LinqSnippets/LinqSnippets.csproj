@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\api-net-v6\api-net-v6.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using api_net_v6.Models.DataModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -258,9 +259,125 @@ namespace LinqSnippets
             var takeLastTwoValues = myList.TakeLast(2);
 
             var takeWhileSmallerThan4 = myList.TakeWhile(num => num < 4);
+        }
 
+        // Paging with Skip & take
+        static public IEnumerable<T> GetPage<T>(IEnumerable<T> collection, int numPage, int resultPerPage)
+        {
+            int startIndex = (numPage - 1) * resultPerPage;
+            return collection.Skip(startIndex).Take(resultPerPage);
+        }
 
+        // Variables
+        static public void LinqVariables()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            var aboveAverage = from number in numbers
+                               let avarege = numbers.Average()
+                               let nSquare = Math.Pow(number, 2)
+                               where nSquare > avarege
+                               select number;
+
+            foreach ( var number in aboveAverage)
+            {
+                Console.WriteLine("Query: \nNumber: {0} \nSquare: {1} ", number, Math.Pow(number, 2));
+            }
+        }
+
+        // ZIP
+        static public void ZipLinq()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5 };
+            string[] stringNumbers = { "one", "two", "three", "four", "five" };
+
+            IEnumerable<string> zipNumbers = numbers.Zip(stringNumbers, (number, numberString) => numberString + "= " + number);
+        }
+
+        // Repeat & Range
+        static public void RepeatRangeLinq()
+        {
+            // Generate collection from 1 - 1000 --> RANGE
+            var first1000 = Enumerable.Range(1, 1000);
+
+            // Repeat a value N times --> REPEAT
+            var fiveXs = Enumerable.Repeat("X", 5);
 
         }
+
+        static public void StudendsLinq()
+        {
+            var classRoom = new[]
+            {
+                new Student
+                {
+                    Id = 1,
+                    Name = "A",
+                    Grade = 93,
+                    Certified = true
+
+                },
+                new Student
+                {
+                    Id = 2,
+                    Name = "B",
+                    Grade = 100,
+                    Certified = false
+
+                },
+                new Student
+                {
+                    Id = 1,
+                    Name = "C",
+                    Grade = 75,
+                    Certified = false
+
+                },
+                new Student
+                {
+                    Id = 3,
+                    Name = "D",
+                    Grade = 30,
+                    Certified = true
+                }
+            };
+
+            var certifiedStudents = from student in classRoom
+                                    where student.Certified
+                                    select student;
+
+            var notCertifiedStudents = from student in classRoom
+                                       where !student.Certified
+                                       select student;
+
+            var approvedStudents = from student in classRoom
+                                   where student.Grade >= 50 
+                                   && student.Certified
+                                   select student;
+        }
+
+        // ALL
+        static public void AllLinq()
+        {
+            var numbers = new List<int>() { 1, 2, 3, 4, 5};
+
+            bool allAreSmallerThan10 = numbers.All(x => x < 10); // True
+            bool allAreBiggerOrEqualThan2 = numbers.All(x => x >= 2); //False
+
+            var emptyList = new List<int>();
+            bool allNumbersAreGreaterThan0 = numbers.All(x => x >= 0); // True
+        }
+
+        // Aggregate
+        static public void AggregateQueries()
+        {
+            int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            int sum = numbers.Aggregate((prevSum, current) => prevSum + current);
+
+            string[] words = { "Hello,", "my", "name", "is", "Pedro" };
+            string greeting = words.Aggregate((prevGreeting, current) => prevGreeting + current);
+        }
+
+
     }
 }
